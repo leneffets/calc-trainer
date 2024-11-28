@@ -75,7 +75,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const result = results[i][j];
                 if (result && result.correct < result.attempts) {
                     const listItem = document.createElement('li');
-                    listItem.textContent = `${i + 1} × ${j + 1} = ${currentQuestion.correctAnswer}`;
+                    listItem.textContent = `${i + 1} × ${j + 1} = ` + (i + 1) * (j + 1);
                     errorList.appendChild(listItem);
                 }
             }
