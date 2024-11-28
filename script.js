@@ -89,15 +89,24 @@ document.addEventListener('DOMContentLoaded', () => {
         for (let i = 1; i <= 10; i++) {
             for (let j = 1; j <= 10; j++) {
                 const result = results[i - 1][j - 1];
-                flatResults.push({ a: i, b: j, result });
+                const successRate = result ? result.correct / result.attempts : 0;
+                const weight = Math.max(1 - successRate, 0.10); // Höheres Gewicht für Fehler/Unbeantwortet, 0.10 damit auch die richtigen wieder dran kommen
+                flatResults.push({ a: i, b: j, weight });
             }
         }
-
-        const priorityQuestions = flatResults.filter(q => q.result === null || q.result.correct < q.result.attempts);
-        const questionPool = priorityQuestions.length > 0 ? priorityQuestions : flatResults;
-        const selected = questionPool[Math.floor(Math.random() * questionPool.length)];
-        return [selected.a, selected.b];
+    
+        // Zufällige Auswahl basierend auf Gewichtung
+        const totalWeight = flatResults.reduce((sum, q) => sum + q.weight, 0);
+        let randomWeight = Math.random() * totalWeight;
+    
+        for (const question of flatResults) {
+            randomWeight -= question.weight;
+            if (randomWeight <= 0) {
+                return [question.a, question.b];
+            }
+        }
     }
+
 
     function startQuiz() {
         timeLimit = parseInt(timeLimitInput.value, 10) || 10;
