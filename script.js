@@ -59,7 +59,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 } else {
                     const successRate = result.correct / result.attempts;
                     const hue = Math.floor(successRate * 120); // Rot (0°) bis Grün (120°)
-                    cell.style.backgroundColor = `hsl(${hue}, 100%, 50%)`;                    cell.textContent = `${result.correct}/${result.attempts}`;
+                    cell.style.backgroundColor = `hsl(${hue}, 85%, 60%)`;                    
+                    cell.textContent = `${result.correct}/${result.attempts}`;
                 }
                 row.appendChild(cell);
             }
