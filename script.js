@@ -11,6 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const resultMatrix = document.getElementById('resultMatrix');
     const errorSection = document.getElementById('errorSection');
     const errorList = document.getElementById('errorList');
+    const feedback = document.getElementById('feedback');
 
     let timeLimit = 10;
     let timeLeft;
@@ -140,14 +141,34 @@ document.addEventListener('DOMContentLoaded', () => {
     function recordAnswer(correct) {
         const { a, b } = currentQuestion;
         const cell = results[a - 1][b - 1] || { attempts: 0, correct: 0 };
+
         cell.attempts += 1;
-        if (correct) cell.correct += 1;
+        if (correct) {
+            showFeedback("Yay",correct)
+            cell.correct += 1;
+        } else {
+            showFeedback("No",false)
+        }
+           
         results[a - 1][b - 1] = cell;
 
         saveResults();
         updateMatrix();
         updateErrorList();
         nextQuestion();
+    }
+
+    function showFeedback(message, correct) {
+    
+        feedback.textContent = message;
+        feedback.classList.toggle('correct', correct);
+        feedback.classList.toggle('incorrect', !correct);
+    
+        // Feedback nach 3 Sekunden ausblenden
+        //setTimeout(() => {
+        //    feedback.textContent = '' ;
+        //    feedback.classList.remove('correct', 'incorrect');
+        //}, 3000);
     }
 
     submitBtn.addEventListener('click', () => {
@@ -178,3 +199,4 @@ document.addEventListener('DOMContentLoaded', () => {
     updateMatrix();
     updateErrorList();
 });
+

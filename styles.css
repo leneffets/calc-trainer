@@ -74,3 +74,22 @@ button.danger {
     font-size: 1rem;
     color: #333;
 }
+
+.feedback {
+    margin-top: 10px;
+    font-size: 1.2em;
+    font-weight: bold;
+    transition: color 0.3s ease-in-out;
+}
+
+.feedback.correct {
+    background-color: #a2e6a2;
+    opacity: 1;
+    transform: scale(1);
+}
+
+.feedback.incorrect {
+    background-color: #f55;
+    opacity: 1;
+    transform: scale(1);
+}
