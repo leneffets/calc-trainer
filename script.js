@@ -58,11 +58,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     cell.className = 'cell';
                 } else {
                     const successRate = result.correct / result.attempts;
-                    const greenShade = Math.floor(successRate * 255);
-                    const redShade = 255 - greenShade;
-                    cell.style.backgroundColor = `rgb(${redShade}, ${greenShade}, 150)`;
-                    //cell.textContent = result.attempts;
-                    cell.textContent = `${result.correct}/${result.attempts}`;
+                    const hue = Math.floor(successRate * 120); // Rot (0°) bis Grün (120°)
+                    cell.style.backgroundColor = `hsl(${hue}, 100%, 50%)`;                    cell.textContent = `${result.correct}/${result.attempts}`;
                 }
                 row.appendChild(cell);
             }
@@ -153,10 +150,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
         cell.attempts += 1;
         if (correct) {
-            showFeedback("Yay",correct)
+            showFeedback(`${currentQuestion.a} × ${currentQuestion.b} = ${currentQuestion.correctAnswer}`,true)
             cell.correct += 1;
         } else {
-            showFeedback("No",false)
+            showFeedback(`${currentQuestion.a} × ${currentQuestion.b} = ${currentQuestion.correctAnswer}`,false)
         }
            
         results[a - 1][b - 1] = cell;
