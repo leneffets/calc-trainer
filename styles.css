@@ -1,0 +1,76 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #f4f4f9;
+    color: #333;
+}
+
+.container {
+    width: 90%;
+    max-width: 600px;
+    margin-top: 20px;
+    text-align: center;
+}
+
+.hidden {
+    display: none;
+}
+
+.settings, #quizSection, #matrixSection, #errorSection {
+    margin: 20px 0;
+}
+
+button {
+    margin: 5px;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button.danger {
+    background-color: #f55;
+    color: white;
+}
+
+#resultMatrix {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+#resultMatrix td, #resultMatrix th {
+    width: 10%;
+    height: 40px;
+    text-align: center;
+    vertical-align: middle;
+    border: 1px solid #ddd;
+    font-weight: bold;
+}
+
+#resultMatrix th {
+    background-color: #f0f0f0;
+}
+
+.cell {
+    background-color: #f99;
+}
+
+.green {
+    background-color: #a2e6a2;
+}
+
+#errorList {
+    list-style-type: none;
+    padding: 0;
+    text-align: left;
+}
+
+#errorList li {
+    margin: 5px 0;
+    font-size: 1rem;
+    color: #333;
+}
