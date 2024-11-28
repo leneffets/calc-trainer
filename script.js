@@ -50,6 +50,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             for (let j = 1; j <= 10; j++) {
                 const cell = document.createElement('td');
+                cell.title = i * j;
                 const result = results[i - 1][j - 1];
                 if (result === null) {
                     cell.textContent = '';
