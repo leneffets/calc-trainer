@@ -140,7 +140,15 @@ document.addEventListener('DOMContentLoaded', () => {
             timerEl.textContent = timeLeft;
             if (timeLeft <= 0) {
                 clearInterval(timer);
-                recordAnswer(false);
+                // Hier wird überprüft, ob eine Antwort eingegeben wurde
+                if (answerInput.value === '') {
+                    // Wenn keine Eingabe erfolgt ist, das Spiel unterbrechen
+                    stopQuiz();
+                    feedback.textContent = "Zeit abgelaufen! Das Spiel wurde beendet.";
+                } else {
+                    // Wenn eine Eingabe vorhanden ist, die Antwort aufzeichnen
+                    recordAnswer(false);
+                }
             }
         }, 1000);
     }

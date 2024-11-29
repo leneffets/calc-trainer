@@ -79,7 +79,7 @@ button.danger {
     margin-top: 10px;
     font-size: 1.2em;
     font-weight: bold;
-    transition: color 0.3s ease-in-out;
+    transition: background-color 3s ease;
 }
 
 .feedback.correct {
