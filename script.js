@@ -111,6 +111,7 @@ document.addEventListener('DOMContentLoaded', () => {
         timeLimit = parseInt(timeLimitInput.value, 10) || 10;
         running = true;
         quizSection.classList.remove('hidden');
+        startBtn.classList.add('hidden');
         stopBtn.classList.remove('hidden');
         nextQuestion();
     }
@@ -118,6 +119,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function stopQuiz() {
         running = false;
         quizSection.classList.add('hidden');
+        startBtn.classList.remove('hidden');
         stopBtn.classList.add('hidden');
         clearInterval(timer);
     }
