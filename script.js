@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     const timeLimitInput = document.getElementById('timeLimit');
+    const weightRatioInput = document.getElementById('weightRatio');
     const startBtn = document.getElementById('startBtn');
     const stopBtn = document.getElementById('stopBtn');
     const resetBtn = document.getElementById('resetBtn');
@@ -14,6 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const feedback = document.getElementById('feedback');
 
     let timeLimit = 10;
+    let weightRatio = 0.9;
     let timeLeft;
     let timer;
     let currentQuestion;
@@ -97,7 +99,7 @@ document.addEventListener('DOMContentLoaded', () => {
             for (let j = i; j <= 10; j++) {
                 const result = results[i - 1][j - 1];
                 const successRate = result ? result.correct / result.attempts : 0;
-                const weight = Math.max(1 - successRate, 0.10);
+                const weight = Math.max((1 - successRate) * weightRatio, 0.10);
                 flatResults.push({ a: i, b: j, weight });
             }
         }
@@ -117,6 +119,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function startQuiz() {
         timeLimit = parseInt(timeLimitInput.value, 10) || 10;
+        weightRatio = parseFloat(weightRatioInput.value) || 0.9;
         running = true;
         quizSection.classList.remove('hidden');
         startBtn.classList.add('hidden');
