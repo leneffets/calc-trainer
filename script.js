@@ -25,6 +25,10 @@ document.addEventListener('DOMContentLoaded', () => {
         return storedResults ? JSON.parse(storedResults) : Array.from({ length: 10 }, () => Array(10).fill(null));
     }
 
+    function getResultIndex(a, b) {
+        return [Math.min(a, b), Math.max(a, b)];
+    }
+
     function saveResults() {
         localStorage.setItem('results', JSON.stringify(results));
     }
@@ -52,15 +56,19 @@ document.addEventListener('DOMContentLoaded', () => {
             for (let j = 1; j <= 10; j++) {
                 const cell = document.createElement('td');
                 cell.title = i * j;
-                const result = results[i - 1][j - 1];
-                if (result === null) {
-                    cell.textContent = '';
-                    cell.className = 'cell';
+                if (j >= i) {
+                    const result = results[i - 1][j - 1];
+                    if (result === null) {
+                        cell.textContent = '';
+                        cell.className = 'cell';
+                    } else {
+                        const successRate = result.correct / result.attempts;
+                        const hue = Math.floor(successRate * 120);
+                        cell.style.backgroundColor = `hsl(${hue}, 85%, 60%)`;
+                        cell.textContent = `${result.correct}/${result.attempts}`;
+                    }
                 } else {
-                    const successRate = result.correct / result.attempts;
-                    const hue = Math.floor(successRate * 120); // Rot (0°) bis Grün (120°)
-                    cell.style.backgroundColor = `hsl(${hue}, 85%, 60%)`;                    
-                    cell.textContent = `${result.correct}/${result.attempts}`;
+                    cell.style.backgroundColor = '#f9f9f9';
                 }
                 row.appendChild(cell);
             }
@@ -70,12 +78,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function updateErrorList() {
         errorList.innerHTML = '';
-        for (let i = 0; i < results.length; i++) {
-            for (let j = 0; j < results[i].length; j++) {
-                const result = results[i][j];
+        for (let i = 1; i <= 10; i++) {
+            for (let j = i; j <= 10; j++) {
+                const result = results[i - 1][j - 1];
                 if (result && result.correct < result.attempts) {
                     const listItem = document.createElement('li');
-                    listItem.textContent = `${i + 1} × ${j + 1} = ` + (i + 1) * (j + 1) + ` (${result.correct}/${result.attempts})`;
+                    listItem.textContent = `${i} × ${j} = ${i * j} (${result.correct}/${result.attempts})`;
                     errorList.appendChild(listItem);
                 }
             }
@@ -86,22 +94,22 @@ document.addEventListener('DOMContentLoaded', () => {
     function pickQuestion() {
         const flatResults = [];
         for (let i = 1; i <= 10; i++) {
-            for (let j = 1; j <= 10; j++) {
+            for (let j = i; j <= 10; j++) {
                 const result = results[i - 1][j - 1];
                 const successRate = result ? result.correct / result.attempts : 0;
-                const weight = Math.max(1 - successRate, 0.10); // Höheres Gewicht für Fehler/Unbeantwortet, 0.10 damit auch die richtigen wieder dran kommen
+                const weight = Math.max(1 - successRate, 0.10);
                 flatResults.push({ a: i, b: j, weight });
             }
         }
     
-        // Zufällige Auswahl basierend auf Gewichtung
         const totalWeight = flatResults.reduce((sum, q) => sum + q.weight, 0);
         let randomWeight = Math.random() * totalWeight;
     
         for (const question of flatResults) {
             randomWeight -= question.weight;
             if (randomWeight <= 0) {
-                return [question.a, question.b];
+                const shouldSwap = Math.random() < 0.5;
+                return shouldSwap ? [question.b, question.a] : [question.a, question.b];
             }
         }
     }
@@ -157,17 +165,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function recordAnswer(correct) {
         const { a, b } = currentQuestion;
-        const cell = results[a - 1][b - 1] || { attempts: 0, correct: 0 };
+        const [minIdx, maxIdx] = getResultIndex(a, b);
+        const cell = results[minIdx - 1][maxIdx - 1] || { attempts: 0, correct: 0 };
 
         cell.attempts += 1;
         if (correct) {
-            showFeedback(`${currentQuestion.a} × ${currentQuestion.b} = ${currentQuestion.correctAnswer}`,true)
+            showFeedback(`${currentQuestion.a} × ${currentQuestion.b} = ${currentQuestion.correctAnswer}`, true);
             cell.correct += 1;
         } else {
-            showFeedback(`${currentQuestion.a} × ${currentQuestion.b} = ${currentQuestion.correctAnswer}`,false)
+            showFeedback(`${currentQuestion.a} × ${currentQuestion.b} = ${currentQuestion.correctAnswer}`, false);
         }
            
-        results[a - 1][b - 1] = cell;
+        results[minIdx - 1][maxIdx - 1] = cell;
 
         saveResults();
         updateMatrix();

@@ -43,7 +43,8 @@ button.danger {
 }
 
 #resultMatrix td, #resultMatrix th {
-    width: 10%;
+    width: 40px;
+    min-width: 40px;
     height: 40px;
     text-align: center;
     vertical-align: middle;
