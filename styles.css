@@ -1,3 +1,33 @@
+:root {
+    --bg-primary: #f4f4f9;
+    --bg-secondary: #f0f0f0;
+    --bg-tertiary: #d1d1d1;
+    --cell-inactive: #e8e8e8;
+    --cell-unused: #f9f9f9;
+    --text-primary: #333;
+    --text-secondary: #666;
+    --border-color: #ddd;
+    --color-success: #a2e6a2;
+    --color-danger: #f55;
+    --color-neutral: #999;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --bg-primary: #1e1e1e;
+        --bg-secondary: #2d2d2d;
+        --bg-tertiary: #3a3a3a;
+        --cell-inactive: #4a4a4a;
+        --cell-unused: #2a2a2a;
+        --text-primary: #797979;
+        --text-secondary: #313030;
+        --border-color: #444;
+        --color-success: #5ab35a;
+        --color-danger: #d64545;
+        --color-neutral: #666;
+    }
+}
+
 body {
     font-family: Arial, sans-serif;
     margin: 0;
@@ -5,8 +35,9 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-color: #f4f4f9;
-    color: #333;
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .container {
@@ -33,7 +64,7 @@ button {
 }
 
 button.danger {
-    background-color: #f55;
+    background-color: var(--color-danger);
     color: white;
 }
 
@@ -47,7 +78,7 @@ button.danger {
     height: 30px;
     text-align: center;
     vertical-align: middle;
-    border: 1px solid #ddd;
+    border: 1px solid var(--border-color);
     font-weight: bold;
     font-size: 0.8em;
 }
@@ -62,15 +93,19 @@ button.danger {
 }
 
 #resultMatrix th {
-    background-color: #f0f0f0;
+    background-color: var(--bg-secondary);
 }
 
 .cell {
-    background-color: #d1d1d1;
+    background-color: var(--cell-inactive) !important;
+}
+
+.cell-unused {
+    background-color: var(--cell-unused) !important;
 }
 
 .green {
-    background-color: #a2e6a2;
+    background-color: var(--color-success);
 }
 
 #errorList {
@@ -82,7 +117,7 @@ button.danger {
 #errorList li {
     margin: 5px 0;
     font-size: 1rem;
-    color: #333;
+    color: var(--text-primary);
 }
 
 .feedback {
@@ -93,13 +128,31 @@ button.danger {
 }
 
 .feedback.correct {
-    background-color: #a2e6a2;
+    background-color: var(--color-success);
     opacity: 1;
     transform: scale(1);
 }
 
 .feedback.incorrect {
-    background-color: #f55;
+    background-color: var(--color-danger);
     opacity: 1;
     transform: scale(1);
+}
+
+input, label {
+    color: var(--text-primary);
+}
+
+input {
+    background-color: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    padding: 5px;
+    border-radius: 3px;
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+input:focus {
+    outline: none;
+    border-color: var(--text-secondary);
+    background-color: var(--bg-tertiary);
 }

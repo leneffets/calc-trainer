@@ -70,7 +70,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         cell.textContent = `${result.correct}/${result.attempts}`;
                     }
                 } else {
-                    cell.style.backgroundColor = '#f9f9f9';
+                    cell.className = 'cell-unused';
                 }
                 row.appendChild(cell);
             }
